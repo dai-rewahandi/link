@@ -1,0 +1,1 @@
+DROP INDEX `user_db_password_unique`;
