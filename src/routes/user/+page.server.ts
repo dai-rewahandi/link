@@ -18,5 +18,4 @@ export const load: PageServerLoad = async ({ cookies }: { cookies: Cookies }) =>
 	return {
 		data: user_data
 	}
-
 }

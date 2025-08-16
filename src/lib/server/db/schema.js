@@ -14,4 +14,9 @@ export const sessions_db = sqliteTable('sessions_db', {
 	user_id: integer('user_id').notNull().references(() => user_db.id, { onDelete: 'cascade' })
 })
 
-
+export const link_db = sqliteTable('link_db', {
+				id: integer('id').primaryKey(),
+				name: text('name').notNull(),
+				link: text('link').notNull(),
+				user_id: integer('user_id').notNull().references(() => user_db.id, { onDelete: 'cascade' })
+})
