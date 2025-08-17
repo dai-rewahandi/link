@@ -4,7 +4,7 @@
 </script>
 
 <Navbar>
-	<NavBrand href="/" class="text-xl font-bold">LnkDB</NavBrand>
+	<NavBrand href="/" class="text-xl font-bold">LinkDB</NavBrand>
 	{#if is_signin}
 		<div class="flex items-center gap-4">
 			<a href="/user">
