@@ -5,7 +5,8 @@ export const user_db = sqliteTable('user_db', {
         name: text('name').notNull(),
         username: text('username').unique().notNull(),
         email: text('email').notNull().unique(),
-        password: text('password').notNull()
+        password: text('password').notNull(),
+				rule: text('rule').notNull().default('user')
 });
 
 export const sessions_db = sqliteTable('sessions_db', {
@@ -18,5 +19,6 @@ export const link_db = sqliteTable('link_db', {
         id: integer('id').primaryKey(),
         name: text('name').notNull(),
         link: text('link').notNull(),
+				brand: text('brand').notNull(),
         user_id: integer('user_id').notNull().references(() => user_db.id, { onDelete: 'cascade' })
 })
