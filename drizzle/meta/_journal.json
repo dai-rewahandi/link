@@ -36,6 +36,20 @@
       "when": 1755343344179,
       "tag": "0004_user_tabale",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1755407943602,
+      "tag": "0005_user_tabale",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1755421012079,
+      "tag": "0006_user_tabale",
+      "breakpoints": true
     }
   ]
 }

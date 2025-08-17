@@ -1,0 +1,1 @@
+ALTER TABLE `user_db` ADD `rule` text DEFAULT 'user' NOT NULL;

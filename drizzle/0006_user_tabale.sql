@@ -1,0 +1,1 @@
+ALTER TABLE `link_db` ADD `brand` text NOT NULL;
