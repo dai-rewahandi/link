@@ -14,10 +14,9 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { BadgeCheckSolid, TrashBinSolid } from 'flowbite-svelte-icons';
+	import { TrashBinSolid } from 'flowbite-svelte-icons';
 	let { data, form } = $props();
 
-	let selected = $state('');
 	let brand = [
 		{ value: 'google', name: 'Google' },
 		{ value: 'youtube', name: 'YouTube' },
