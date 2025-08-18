@@ -5,6 +5,7 @@
 		Avatar,
 		Button,
 		Card,
+		Fileupload,
 		Input,
 		Label,
 		Select,
@@ -81,6 +82,10 @@
 				<Name name={data.data?.user_data.name} admin={data.data?.user_data.rule} />
 			</h5>
 			<span class="font-light text-gray-600">{data.data?.user_data.email}</span>
+			<div class="mt-4 flex items-center gap-2">
+				<Button class="btn" color="light">Edit Profile</Button>
+				<Button class="btn" href="u/{data.data?.user_data.username}">All Link</Button>
+			</div>
 		</Card>
 
 		<Card class="p-4 md:p-6 xl:p-8">
@@ -141,4 +146,21 @@
 			{/if}
 		</Table>
 	</div>
+</div>
+
+<div
+	class="modal-edit-user absolute top-0 right-0 flex h-full w-full flex-col items-center justify-center"
+>
+	<Card class="p-4 md:p-6 xl:p-8">
+		<form class="flex flex-col gap-4">
+			<Label>
+				<span>Profile image</span>
+				<Fileupload id="file_upload" />
+			</Label>
+			<Label>
+				<span>Name</span>
+				<Input id="name" name="name" placeholder="name" />
+			</Label>
+		</form>
+	</Card>
 </div>
