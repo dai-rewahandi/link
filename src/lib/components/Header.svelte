@@ -1,6 +1,6 @@
 <script>
 	import { Navbar, NavBrand, Button, Avatar } from 'flowbite-svelte';
-	export let is_signin = false;
+	export let is_signin = false, avatar = 'https://dummyimage.com/600x600/000/fff';
 </script>
 
 <Navbar>
@@ -8,7 +8,7 @@
 	{#if is_signin}
 		<div class="flex items-center gap-4">
 			<a href="/user">
-				<Avatar src="https://dummyimage.com/600x600/000/fff" alt="Avatar" />
+				<Avatar src={avatar} alt="Avatar" />
 			</a>
 			<form>
 				<Button

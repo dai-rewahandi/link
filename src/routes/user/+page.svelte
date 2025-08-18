@@ -5,6 +5,7 @@
 		Avatar,
 		Button,
 		Card,
+		CloseButton,
 		Fileupload,
 		Input,
 		Label,
@@ -17,6 +18,7 @@
 	} from 'flowbite-svelte';
 	import { TrashBinSolid } from 'flowbite-svelte-icons';
 	let { data, form } = $props();
+				let avatar = `/uploads/${data.data?.user_data.username}.jpeg`
 
 	let brand = [
 		{ value: 'google', name: 'Google' },
@@ -68,6 +70,9 @@
 		{ value: 'shopee', name: 'Shopee' },
 		{ value: 'bukalapak', name: 'Bukalapak' }
 	];
+
+
+let moddal_open = $state(false)
 </script>
 
 {#if form?.message}
@@ -77,13 +82,13 @@
 <div class="container grid h-full w-full grow gap-4 md:grid-cols-2">
 	<div class="flex flex-col gap-4">
 		<Card class="flex items-center p-4 pb-4 md:p-6 xl:p-8">
-			<Avatar size="lg" class="mb-2" src="https://dummyimage.com/1080x1080/000/fff" alt="Avatar" />
+			<Avatar size="lg" class="mb-2" src={avatar} alt="Avatar" />
 			<h5 class="flex items-center gap-2 text-lg font-semibold">
 				<Name name={data.data?.user_data.name} admin={data.data?.user_data.rule} />
 			</h5>
 			<span class="font-light text-gray-600">{data.data?.user_data.email}</span>
 			<div class="mt-4 flex items-center gap-2">
-				<Button class="btn" color="light">Edit Profile</Button>
+				<Button class="btn" color="light" onclick={() => moddal_open = true }>Edit Profile</Button>
 				<Button class="btn" href="u/{data.data?.user_data.username}">All Link</Button>
 			</div>
 		</Card>
@@ -149,18 +154,53 @@
 </div>
 
 <div
-	class="modal-edit-user absolute top-0 right-0 flex h-full w-full flex-col items-center justify-center"
+	class="{ moddal_open ? 'flex' : 'hidden'} modal-edit-user absolute top-0 right-0 h-full w-full flex-col items-center justify-center backdrop-blur-sm transition-transform"
 >
-	<Card class="p-4 md:p-6 xl:p-8">
-		<form class="flex flex-col gap-4">
+	<Card class="p-4 md:p-6 xl:p-8 relative">
+		<button class="absolute right-2 top-2" onclick={() => moddal_open = false}><CloseButton /></button>
+		<form class="flex flex-col gap-4" enctype="multipart/form-data">
 			<Label>
 				<span>Profile image</span>
-				<Fileupload id="file_upload" />
+				<Fileupload id="file_upload" name='file_upload'/>
 			</Label>
 			<Label>
 				<span>Name</span>
-				<Input id="name" name="name" placeholder="name" />
+				<Input
+					type="text"
+					id="name"
+					name="name"
+					placeholder="name"
+					value={data.data?.user_data.name}
+					required
+				/>
 			</Label>
+			<Label>
+				<span>Email</span>
+				<Input
+					class="opacity-60"
+					type="email"
+					id="email"
+					name="email"
+					placeholder="email"
+					value={data.data?.user_data.email}
+					required
+					readonly
+				/>
+			</Label>
+			<Label>
+				<span>Username</span>
+				<Input
+					type="text"
+					id="username"
+					name="username"
+					placeholder="username"
+					value={data.data?.user_data.username}
+					required
+				/>
+			</Label>
+			<Button type="submit" formaction="?/edituser" formmethod="post" class="cursor-pointer"
+				>Submit</Button
+			>
 		</form>
 	</Card>
 </div>

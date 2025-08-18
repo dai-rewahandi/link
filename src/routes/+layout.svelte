@@ -18,7 +18,7 @@
 </svelte:head>
 
 <main class="flex min-h-screen w-screen flex-col justify-between">
-	<Header is_signin={data.is_signin} />
+	<Header is_signin={data.data?.is_signin} avatar={`uploads/${data.data?.user}.jpeg`}/>
 	<section class="flex grow flex-col items-center p-4">
 		{@render children?.()}
 	</section>

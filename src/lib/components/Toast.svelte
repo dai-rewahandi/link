@@ -1,6 +1,6 @@
 <script>
 	import { Toast } from 'flowbite-svelte';
-	import { CheckCircleSolid, CloseCircleSolid } from 'flowbite-svelte-icons';
+	import { CheckCircleSolid, CloseCircleSolid, FireOutline } from 'flowbite-svelte-icons';
 
 	export let mode, message;
 </script>
@@ -19,6 +19,13 @@
 			{#snippet icon()}
 				<CloseCircleSolid class="h-5 w-5" />
 				<span class="sr-only">Error icon</span>
+			{/snippet}
+			{message}
+		</Toast>
+	{:else if mode == 'warn'}
+		<Toast color="yellow">
+			{#snippet icon()}
+				<FireOutline class="h-6 w-6" />
 			{/snippet}
 			{message}
 		</Toast>

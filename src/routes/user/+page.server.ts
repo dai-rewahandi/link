@@ -3,6 +3,11 @@ import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { and, eq } from 'drizzle-orm';
 import { link_db, sessions_db, user_db } from '$lib/server/db/schema';
+import fs from 'fs'
+import path from 'path';
+
+
+const dir = path.resolve('static/uploads/');
 
 export const load: PageServerLoad = async ({ cookies }: { cookies: Cookies }) => {
 	const cookies_check = cookies.get('sessions_id');
@@ -80,5 +85,48 @@ export const actions = {
 		} catch (error) {
 			return fail(400, { mode: 'error', message: 'Faild delete link' });
 		}
-	}
+	},
+				edituser: async ({ request }: { request: Request }) => {
+								const  form =  await request.formData()
+								const name = form.get('name')
+								const username = form.get('username')
+								const email = form.get('email')
+								const file = form.get('file_upload')
+								if(!name || typeof name !== 'string' || !username || typeof username !== 'string' || !email || typeof email !== 'string' ){
+											return fail(400, { mode: 'error', message: 'Faild in form' })	
+								}
+								if(!(file instanceof File)){
+												console.log(file);
+												
+												return { mode: 'warn', message: 'no image' }
+								}
+								try {
+
+								const image_type = ['image/jpeg', 'image/png', 'image/jpg']
+								if(!image_type.includes(file.type)){
+												return { mode: 'warn', message: 'wrong file type' }
+								}
+
+								const new_file = `${username}.jpeg`
+								
+								const new_dir_file = path.join(dir, new_file)
+
+								if(!fs.existsSync(dir)){
+												fs.mkdirSync(dir)
+								}
+
+								if(fs.existsSync(new_dir_file)){
+												fs.unlinkSync(new_dir_file)
+								}
+
+								const buffer = await file.arrayBuffer()
+								fs.writeFileSync(new_dir_file, Buffer.from(buffer))
+
+								return { mode: 'success', message: 'Success Upload image' }
+								}catch(error){
+												console.log(error);
+												
+								}
+
+				}
 };
