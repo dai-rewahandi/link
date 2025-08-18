@@ -5,7 +5,7 @@
 
 <div class="flex items-center gap-2">
 	{#if admin === 'admin'}
-		{name} <BadgeCheckSolid class='text-yellow-400'/>
+		{name} <BadgeCheckSolid class="text-yellow-400" />
 	{:else}
 		{name}
 	{/if}

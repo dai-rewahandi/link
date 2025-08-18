@@ -42,7 +42,12 @@
 					{/snippet}
 				</Input>
 			</Label>
-			<Button class="w-full pointer-events-auto cursor-pointer" formaction="?/push" formmethod="post" type='submit'>SignIn</Button>
+			<Button
+				class="pointer-events-auto w-full cursor-pointer"
+				formaction="?/push"
+				formmethod="post"
+				type="submit">SignIn</Button
+			>
 		</form>
 		<div class="text-md mt-4 font-medium text-gray-500 dark:text-gray-300">
 			have account? <a class="text-primary-700 dark:text-primary-500" href="/signup">SignUp</a>

@@ -78,8 +78,8 @@
 		<Card class="flex items-center p-4 pb-4 md:p-6 xl:p-8">
 			<Avatar size="lg" class="mb-2" src="https://dummyimage.com/1080x1080/000/fff" alt="Avatar" />
 			<h5 class="flex items-center gap-2 text-lg font-semibold">
-				<Name name={data.data?.user_data.name} admin={data.data?.user_data.rule}/>
-												</h5>
+				<Name name={data.data?.user_data.name} admin={data.data?.user_data.rule} />
+			</h5>
 			<span class="font-light text-gray-600">{data.data?.user_data.email}</span>
 		</Card>
 
@@ -96,10 +96,13 @@
 				</Label>
 				<Label class="w-full">
 					<span>Brand</span>
-					<Select items={brand} name='brand' id="brand"></Select>
+					<Select items={brand} name="brand" id="brand"></Select>
 				</Label>
-				<Button class="btn w-full cursor-pointer" type="submit" formaction="?/addlink" formmethod="post"
-					>add</Button
+				<Button
+					class="btn w-full cursor-pointer"
+					type="submit"
+					formaction="?/addlink"
+					formmethod="post">add</Button
 				>
 			</form>
 		</Card>
@@ -109,17 +112,17 @@
 			<TableHead>
 				<TableHeadCell>name</TableHeadCell>
 				<TableHeadCell>link</TableHeadCell>
-				<TableHeadCell class='text-center'>actions</TableHeadCell>
+				<TableHeadCell class="text-center">actions</TableHeadCell>
 			</TableHead>
 			{#if data.data?.user_link}
 				{#each data.data?.user_link as link}
 					<TableBody>
-						<TableBodyCell class='flex items-center gap-2'
+						<TableBodyCell class="flex items-center gap-2"
 							><img src="https://cdn.simpleicons.org/{link.brand}" alt="Google" width="24" />
 							{link.name}</TableBodyCell
 						>
 						<TableBodyCell>{link.link}</TableBodyCell>
-						<TableBodyCell class='text-center'>
+						<TableBodyCell class="text-center">
 							<form>
 								<input class="hidden" type="number" name="id" id="id" value={link.id} />
 								<button formaction="?/deletelink" formmethod="post" class="btn cursor-pointer">
