@@ -22,11 +22,11 @@ export const actions = {
 		const email = form.get('email');
 		const password = form.get('password');
 		if (!email || !password || typeof email !== 'string' || typeof password !== 'string')
-			return fail(400, { mode: 'error', message: 'Somenting wrong!' });
+			return fail(400, { mode: 'error', message: 'Something went wrong. Please try again.' });
 		const [user] = await db.select().from(user_db).where(eq(user_db.email, email));
-		if (!user) return fail(400, { mode: 'error', message: 'User not found!' });
+		if (!user) return fail(400, { mode: 'error', message: 'User not found.' });
 		const password_check = await bcrypt.compare(password, user.password);
-		if (!password_check) return fail(400, { mode: 'error', message: 'Password not match!' });
+		if (!password_check) return fail(400, { mode: 'error', message: 'Authentication failed. Incorrect password.' });
 		const [sessions_check] = await db
 			.select()
 			.from(sessions_db)

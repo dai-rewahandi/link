@@ -10,123 +10,123 @@ import path from 'path';
 const dir = path.resolve('static/uploads/');
 
 export const load: PageServerLoad = async ({ cookies }: { cookies: Cookies }) => {
-	const cookies_check = cookies.get('sessions_id');
-	if (!cookies_check) return redirect(302, '/signin');
-	const [sessions_db_check] = await db
-		.select()
-		.from(sessions_db)
-		.where(eq(sessions_db.sessions_token, cookies_check));
-	if (!sessions_db_check) return redirect(302, '/signin');
-	const [user_data] = await db
-		.select()
-		.from(user_db)
-		.where(eq(user_db.id, sessions_db_check.user_id));
-	if (!user_data) return { mode: 'error', message: 'Data user not found!' };
-	const link_check = await db
-		.select()
-		.from(link_db)
-		.where(eq(link_db.user_id, sessions_db_check.user_id));
-	return {
-		data: {
-			user_data: user_data,
-			user_link: link_check
-		}
-	};
+    const cookies_check = cookies.get('sessions_id');
+    if (!cookies_check) return redirect(302, '/signin');
+    const [sessions_db_check] = await db
+        .select()
+        .from(sessions_db)
+        .where(eq(sessions_db.sessions_token, cookies_check));
+    if (!sessions_db_check) return redirect(302, '/signin');
+    const [user_data] = await db
+        .select()
+        .from(user_db)
+        .where(eq(user_db.id, sessions_db_check.user_id));
+    if (!user_data) return { mode: 'error', message: 'User data not found.' };
+    const link_check = await db
+        .select()
+        .from(link_db)
+        .where(eq(link_db.user_id, sessions_db_check.user_id));
+    return {
+        data: {
+            user_data: user_data,
+            user_link: link_check
+        }
+    };
 };
 
 export const actions = {
-	addlink: async ({ request, cookies }: { request: Request; cookies: Cookies }) => {
-		const form = await request.formData();
-		const name = form.get('name');
-		const link = form.get('link');
-		const brand = form.get('brand');
-		if (
-			!name ||
-			typeof name !== 'string' ||
-			!link ||
-			typeof link !== 'string' ||
-			!brand ||
-			typeof brand !== 'string'
-		)
-			return fail(400, { mode: 'error', message: 'data faild!' });
-		try {
-			const cookies_check = cookies.get('sessions_id');
-			if (!cookies_check) return;
-			const [sessions_check] = await db
-				.select()
-				.from(sessions_db)
-				.where(eq(sessions_db.sessions_token, cookies_check));
-			await db.insert(link_db).values({
-				name,
-				link,
-				user_id: sessions_check.user_id,
-				brand: brand
-			});
-			return { mode: 'success', message: 'New link added!' };
-		} catch (error) {
-			return fail(400, { mode: 'error', message: 'Add faild!' });
-		}
-	},
-	deletelink: async ({ request, cookies }: { request: Request; cookies: Cookies }) => {
-		const form = await request.formData();
-		const id: number = Number(form.get('id'));
-		if (isNaN(id)) return fail(400, { mode: 'error', message: 'Faild request' });
-		const cookies_check = cookies.get('sessions_id');
-		if (!cookies_check) return;
-		const [sessions_check] = await db
-			.select()
-			.from(sessions_db)
-			.where(eq(sessions_db.sessions_token, cookies_check));
-		try {
-			await db
-				.delete(link_db)
-				.where(and(eq(link_db.id, id), eq(link_db.user_id, sessions_check.user_id)));
-			return { mode: 'success', message: 'Success delete link' };
-		} catch (error) {
-			return fail(400, { mode: 'error', message: 'Faild delete link' });
-		}
-	},
-				edituser: async ({ request }: { request: Request }) => {
-								const  form =  await request.formData()
-								const name = form.get('name')
-								const username = form.get('username')
-								const email = form.get('email')
-								const file = form.get('file_upload')
-								if(!name || typeof name !== 'string' || !username || typeof username !== 'string' || !email || typeof email !== 'string' ){
-											return fail(400, { mode: 'error', message: 'Faild in form' })	
-								}
-								if(!(file instanceof File)){
-												console.log(file);
-												
-												return { mode: 'warn', message: 'no image' }
-								}
-								try {
+    addlink: async ({ request, cookies }: { request: Request; cookies: Cookies }) => {
+        const form = await request.formData();
+        const name = form.get('name');
+        const link = form.get('link');
+        const brand = form.get('brand');
+        if (
+            !name ||
+            typeof name !== 'string' ||
+            !link ||
+            typeof link !== 'string' ||
+            !brand ||
+            typeof brand !== 'string'
+        )
+            return fail(400, { mode: 'error', message: 'Failed to process data.' });
+        try {
+            const cookies_check = cookies.get('sessions_id');
+            if (!cookies_check) return;
+            const [sessions_check] = await db
+                .select()
+                .from(sessions_db)
+                .where(eq(sessions_db.sessions_token, cookies_check));
+            await db.insert(link_db).values({
+                name,
+                link,
+                user_id: sessions_check.user_id,
+                brand: brand
+            });
+            return { mode: 'success', message: 'New link has been added successfully.' };
+        } catch (error) {
+            return fail(400, { mode: 'error', message: 'Failed to add new link.' });
+        }
+    },
+    deletelink: async ({ request, cookies }: { request: Request; cookies: Cookies }) => {
+        const form = await request.formData();
+        const id: number = Number(form.get('id'));
+        if (isNaN(id)) return fail(400, { mode: 'error', message: 'Invalid request.' });
+        const cookies_check = cookies.get('sessions_id');
+        if (!cookies_check) return;
+        const [sessions_check] = await db
+            .select()
+            .from(sessions_db)
+            .where(eq(sessions_db.sessions_token, cookies_check));
+        try {
+            await db
+                .delete(link_db)
+                .where(and(eq(link_db.id, id), eq(link_db.user_id, sessions_check.user_id)));
+            return { mode: 'success', message: 'Link has been deleted successfully.' };
+        } catch (error) {
+            return fail(400, { mode: 'error', message: 'Failed to delete link.' });
+        }
+    },
+    edituser: async ({ request }: { request: Request }) => {
+        const form = await request.formData()
+        const name = form.get('name')
+        const username = form.get('username')
+        const email = form.get('email')
+        const file = form.get('file_upload')
+        if (!name || typeof name !== 'string' || !username || typeof username !== 'string' || !email || typeof email !== 'string') {
+            return fail(400, { mode: 'error', message: 'Invalid form submission.' })
+        }
+        if (!(file instanceof File)) {
+            console.log(file);
 
-								const image_type = ['image/jpeg', 'image/png', 'image/jpg']
-								if(!image_type.includes(file.type)){
-												return { mode: 'warn', message: 'wrong file type' }
-								}
+            return { mode: 'warn', message: 'No image provided.' }
+        }
+        try {
 
-								const new_file = `${username}.jpeg`
-								
-								const new_dir_file = path.join(dir, new_file)
+            const image_type = ['image/jpeg', 'image/png', 'image/jpg']
+            if (!image_type.includes(file.type)) {
+                return { mode: 'warn', message: 'Invalid file type.' }
+            }
 
-								if(!fs.existsSync(dir)){
-												fs.mkdirSync(dir)
-								}
+            const new_file = `${username}.jpeg`
 
-								if(fs.existsSync(new_dir_file)){
-												fs.unlinkSync(new_dir_file)
-								}
+            const new_dir_file = path.join(dir, new_file)
 
-								const buffer = await file.arrayBuffer()
-								fs.writeFileSync(new_dir_file, Buffer.from(buffer))
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir)
+            }
 
-								return { mode: 'success', message: 'Success Upload image' }
-								}catch(error){
-												console.log(error);
-												
-								}
+            if (fs.existsSync(new_dir_file)) {
+                fs.unlinkSync(new_dir_file)
+            }
 
-				}
+            const buffer = await file.arrayBuffer()
+            fs.writeFileSync(new_dir_file, Buffer.from(buffer))
+
+            return { mode: 'success', message: 'Image has been uploaded successfully.' }
+        } catch (error) {
+            console.log(error);
+
+        }
+
+    }
 };
