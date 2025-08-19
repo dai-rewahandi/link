@@ -18,7 +18,7 @@
 	} from 'flowbite-svelte';
 	import { TrashBinSolid } from 'flowbite-svelte-icons';
 	let { data, form } = $props();
-				let avatar = `/uploads/${data.data?.user_data.username}.jpeg`
+	let avatar = `/uploads/${data.data?.user_data.username}.jpeg`
 
 	let brand = [
 		{ value: 'google', name: 'Google' },
