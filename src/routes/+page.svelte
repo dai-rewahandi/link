@@ -1,5 +1,7 @@
 <script>
-	import { Quotes, Section, Social, Testimonial } from 'flowbite-svelte-blocks';
+	import { Avatar, Indicator } from 'flowbite-svelte';
+	import { Quotes, Section, Testimonial } from 'flowbite-svelte-blocks';
+	import { BadgeCheckSolid } from 'flowbite-svelte-icons';
 	let { data } = $props();
 </script>
 
@@ -36,5 +38,20 @@
 			<h4 class="mb-2 text-3xl font-extrabold md:text-4xl">{data.data.alluser}+</h4>
 			<p class="font-light text-gray-500 dark:text-gray-400">users</p>
 		</div>
+	</div>
+	<div class="flex w-full items-center justify-center mt-8">
+		{#each data.data.allusername as user}
+			{#if user.rule === 'admin'}
+				<Avatar src={'/uploads/' + user.username + '.jpeg'}>
+					{#snippet indicator()}
+						<Indicator color="gray" border size="xl" placement="bottom-left">
+							<BadgeCheckSolid class='text-yellow-500' />
+						</Indicator>
+					{/snippet}
+				</Avatar>
+			{:else}
+				<Avatar class="h-11 w-11" src={'/uploads/' + user.username + '.jpeg'} stacked />
+			{/if}
+		{/each}
 	</div>
 </div>
