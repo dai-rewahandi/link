@@ -17,8 +17,9 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<!-- NOTE: avatar libk in ver mode oonly -->
 <main class="flex min-h-screen w-screen flex-col justify-between">
-	<Header is_signin={data.data?.is_signin} avatar={`uploads/${data.data?.user}.jpeg`}/>
+	<Header is_signin={data.data?.is_signin} avatar={`http://localhost:5173/uploads/${data.data?.user}.jpeg`}/>
 	<section class="flex grow flex-col items-center p-4">
 		{@render children?.()}
 	</section>
